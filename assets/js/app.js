@@ -1,15 +1,14 @@
-// Main Vue Instance for the StudyZone Lessons Page (IMAGE VERSION)
+// Main Vue Instance for the StudyZone Lessons Page (Simplified)
 new Vue({
   el: "#app",
   data: {
-    // NOTE: The base URL for static files does not include '/api'
     baseUrl: "http://localhost:3000",
     serverUrl: "http://localhost:3000/api",
     lessons: [],
     cart: [],
     loading: true,
     error: null,
-    orderSuccess: false,
+    // **REMOVED**: orderSuccess flag is no longer needed here.
     searchQuery: "",
     searchDebounce: null,
     sort: {
@@ -88,7 +87,6 @@ new Vue({
         const spacesInCart = cartItemMap[lesson._id] || 0;
         return {
           ...lesson,
-          // **THE CHANGE**: Construct the full image URL
           image: `${this.baseUrl}${lesson.image}`,
           displaySpaces: lesson.availableSpaces - spacesInCart,
         };
@@ -115,7 +113,6 @@ new Vue({
         this.cart.push({
           lessonId: lesson._id,
           spaces: 1,
-          // **THE CHANGE**: The lesson snapshot now contains the full image URL
           lessonSnapshot: { ...lesson },
         });
       }
@@ -124,24 +121,11 @@ new Vue({
     saveCart() {
       localStorage.setItem("studyzone-cart", JSON.stringify(this.cart));
     },
-    checkForSuccessMessage() {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get("order") === "success") {
-        this.orderSuccess = true;
-        localStorage.removeItem("studyzone-cart");
-        this.cart = [];
-        window.history.replaceState(
-          {},
-          document.title,
-          window.location.pathname
-        );
-      }
-    },
+    // **REMOVED**: checkForSuccessMessage method is no longer needed.
   },
 
   created() {
     this.cart = JSON.parse(localStorage.getItem("studyzone-cart") || "[]");
-    this.checkForSuccessMessage();
     this.fetchLessons();
   },
 });

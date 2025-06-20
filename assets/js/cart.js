@@ -1,4 +1,4 @@
-// Vue Instance for the StudyZone Cart Page (BUG-FREE VERSION)
+// Vue Instance for the StudyZone Cart Page (with Thank You Message)
 new Vue({
   el: "#app",
   data: {
@@ -10,6 +10,8 @@ new Vue({
     },
     submitting: false,
     error: null,
+    // **NEW**: This flag controls the visibility of the "Thank You" message
+    orderPlaced: false,
   },
 
   computed: {
@@ -41,42 +43,30 @@ new Vue({
   },
 
   methods: {
-    /**
-     * Loads the cart data from localStorage when the page is initialized.
-     */
     loadCart() {
       this.cart = JSON.parse(localStorage.getItem("studyzone-cart") || "[]");
     },
-    /**
-     * Removes an item from the cart and updates localStorage.
-     */
     removeFromCart(cartIndex) {
       this.cart.splice(cartIndex, 1);
       localStorage.setItem("studyzone-cart", JSON.stringify(this.cart));
     },
-    /**
-     * The core function to submit the order and update inventory.
-     * This contains the main bug fix.
-     */
     async submitOrder() {
       if (!this.isCheckoutFormValid || this.submitting) return;
 
       this.submitting = true;
       this.error = null;
 
-      // 1. Prepare the order payload for the POST request
       const orderPayload = {
         name: this.checkout.name,
         phone: this.checkout.phone,
         items: this.cart.map((item) => ({
           lessonId: item.lessonId,
           spaces: item.spaces,
-          name: item.lessonSnapshot.name, // Add name for better logging on backend
+          name: item.lessonSnapshot.name,
         })),
       };
 
       try {
-        // 2. Post the new order to the orders collection
         const orderResponse = await fetch(`${this.serverUrl}/orders`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -85,18 +75,10 @@ new Vue({
         if (!orderResponse.ok)
           throw new Error("Failed to submit order. Please try again.");
 
-        // 3. **THE FIX**: Create and execute PUT requests to update lesson spaces.
-        const updatePromises = this.cart.map((item) => {
-          // Calculate the new number of available spaces.
+        const lessonsToUpdate = this.cart.map((item) => {
           const newAvailableSpaces =
             item.lessonSnapshot.availableSpaces - item.spaces;
-
-          // This is the payload your backend PUT route expects.
-          const updatePayload = {
-            availableSpaces: newAvailableSpaces,
-          };
-
-          // Send the PUT request to the correct endpoint.
+          const updatePayload = { availableSpaces: newAvailableSpaces };
           return fetch(`${this.serverUrl}/lessons/${item.lessonId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -104,28 +86,21 @@ new Vue({
           });
         });
 
-        // Wait for all inventory updates to complete
-        const updateResults = await Promise.all(updatePromises);
+        await Promise.all(lessonsToUpdate);
 
-        // Check if any of the updates failed
-        for (const result of updateResults) {
-          if (!result.ok) throw new Error("Failed to update lesson inventory.");
-        }
-
-        // 4. Redirect to the main page with a success query parameter.
-        // The main page will handle clearing localStorage and showing the message.
-        window.location.href = `index.html?order=success`;
+        // **THE CHANGE**: Instead of redirecting, we show the confirmation message.
+        // 1. Clear the cart from storage
+        localStorage.removeItem("studyzone-cart");
+        // 2. Set the flag to display the thank you message
+        this.orderPlaced = true;
       } catch (error) {
         this.error = `Error: ${error.message}`;
         console.error("Order submission error:", error);
-        this.submitting = false; // Allow the user to try again
+        this.submitting = false;
       }
     },
   },
 
-  /**
-   * When the page is created, load the cart from localStorage.
-   */
   created() {
     this.loadCart();
   },
