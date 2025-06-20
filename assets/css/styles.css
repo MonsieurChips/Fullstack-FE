@@ -1,0 +1,55 @@
+/* Custom styles for StudyZone App */
+
+/* Apply a clean background and modern font to the entire page */
+body {
+  background-color: #f0f2f5;
+  font-family: "Inter", sans-serif;
+}
+
+/* Custom transition for a smooth page switch between lessons and cart */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Style for disabled buttons to meet requirements.
+  It makes them visually distinct and prevents user interaction.
+*/
+.disabled-btn {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* A simple loading spinner to indicate when data is being fetched */
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: #4f46e5; /* Indigo color to match theme */
+  animation: spin 1s ease infinite;
+}
+
+/* Smaller spinner for buttons */
+.spinner-small {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border-left-color: #ffffff;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
