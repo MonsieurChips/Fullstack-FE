@@ -2,6 +2,7 @@
 
 /* Apply a clean background and modern font to the entire page */
 body {
+  /* **REVERTED**: Original background color */
   background-color: #f0f2f5;
   font-family: "Inter", sans-serif;
 }
@@ -31,7 +32,8 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border-left-color: #4f46e5; /* Indigo color to match theme */
+  /* **REVERTED**: Spinner color back to indigo */
+  border-left-color: #4f46e5;
   animation: spin 1s ease infinite;
 }
 
