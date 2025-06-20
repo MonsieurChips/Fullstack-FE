@@ -142,7 +142,6 @@
               :key="lesson._id"
               class="bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 flex flex-col"
             >
-              <!-- **UPDATED**: Image replaces the icon block -->
               <div class="h-48 w-full bg-gray-200">
                 <img
                   :src="lesson.image"
@@ -167,11 +166,12 @@
                 <p class="text-gray-600 text-sm">{{ lesson.description }}</p>
               </div>
               <div class="p-4 bg-gray-50">
+                <!-- **UPDATED TEXT** -->
                 <p
                   class="text-sm font-semibold mb-3 text-center"
                   :class="lesson.displaySpaces > 0 ? 'text-green-600' : 'text-red-600'"
                 >
-                  {{ lesson.displaySpaces }} spaces available
+                  {{ lesson.displaySpaces }} in stock
                 </p>
                 <button
                   @click="addToCart(lesson)"
