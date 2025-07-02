@@ -36,7 +36,7 @@
           class="container mx-auto px-6 py-4 flex justify-between items-center"
         >
           <a href="index.html" class="flex items-center space-x-3">
-            <!-- **UPDATED**: New SVG Logo -->
+            <!-- Corrected "S" Flame SVG Logo -->
             <svg
               width="32"
               height="32"
@@ -45,14 +45,12 @@
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M11 2L3 10V14L13 22L21 14V10L11 2Z"
-                class="text-indigo-700"
-                fill="currentColor"
+                d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM14.08 17.35C13.24 17.76 12.28 18 11.25 18C8.9 18 7 16.1 7 13.75C7 11.4 8.9 9.5 11.25 9.5C12.28 9.5 13.24 9.74 14.08 10.15L13.22 11.45C12.66 11.15 11.99 11 11.25 11C9.73 11 8.5 12.23 8.5 13.75C8.5 15.27 9.73 16.5 11.25 16.5C11.99 16.5 12.66 16.35 13.22 16.05L14.08 17.35Z"
+                fill="#4338CA"
               />
               <path
-                d="M13 22L11 20L19 12V10L13 16V22Z"
-                class="text-indigo-500"
-                fill="currentColor"
+                d="M15.5 12C15.5 10.62 14.38 9.5 13 9.5C12.72 9.5 12.45 9.55 12.2 9.66L15.34 12.8L15.5 12Z"
+                fill="#6366F1"
               />
             </svg>
             <h1 class="text-2xl font-bold text-gray-800">StudyZone</h1>
@@ -150,19 +148,28 @@
             <div
               v-for="lesson in sortedLessons"
               :key="lesson._id"
-              class="bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 flex flex-col"
+              class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col"
             >
-              <div class="h-48 w-full bg-gray-200">
+              <a
+                :href="'lesson.html?id=' + lesson._id"
+                class="block h-48 w-full bg-gray-200 group"
+              >
                 <img
                   :src="lesson.image"
                   :alt="lesson.name"
-                  class="w-full h-full object-cover"
+                  class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                   onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found';"
                 />
-              </div>
+              </a>
 
               <div class="p-4 flex-grow">
-                <h3 class="text-xl font-bold mb-2">{{ lesson.name }}</h3>
+                <a :href="'lesson.html?id=' + lesson._id" class="block">
+                  <h3
+                    class="text-xl font-bold mb-2 hover:text-indigo-600 transition-colors"
+                  >
+                    {{ lesson.name }}
+                  </h3>
+                </a>
                 <p class="text-gray-600 mb-1">
                   <i class="fas fa-map-marker-alt w-5"></i> {{ lesson.location
                   }}
