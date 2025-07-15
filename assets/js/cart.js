@@ -2,7 +2,7 @@
 new Vue({
   el: "#app",
   data: {
-    serverUrl: 'https://studyzone-k553.onrender.com/api',
+    serverUrl: "https://studyzone-k553.onrender.com/api",
     cart: [],
     checkout: {
       name: "",

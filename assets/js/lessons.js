@@ -1,10 +1,10 @@
-// Vue Instance for the Single Lesson Detail Page
+
 new Vue({
     el: '#app',
     data: {
-        // **UPDATED**: URLs now point to your live Render server
-        baseUrl: 'https://studyzone-k553.onrender.com',
-        serverUrl: 'https://studyzone-k553.onrender.com/api',
+
+        baseUrl: "https://studyzone-k553.onrender.com",
+        serverUrl: "https://studyzone-k553.onrender.com/api",
         lesson: null,
         cart: [],
         loading: true,
