@@ -2,7 +2,7 @@
 new Vue({
   el: "#app",
   data: {
-    baseUrl: "http://localhost:3000",
+    baseUrl: 'https://studyzone-k553.onrender.com',
     serverUrl: "http://localhost:3000/api",
     lessons: [],
     cart: [],

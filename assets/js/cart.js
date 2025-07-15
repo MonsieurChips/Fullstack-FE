@@ -2,7 +2,7 @@
 new Vue({
   el: "#app",
   data: {
-    serverUrl: "http://localhost:3000/api",
+    serverUrl: 'https://studyzone-k553.onrender.com/api',
     cart: [],
     checkout: {
       name: "",
@@ -10,7 +10,7 @@ new Vue({
     },
     submitting: false,
     error: null,
-    // **NEW**: This flag controls the visibility of the "Thank You" message
+
     orderPlaced: false,
   },
 
@@ -88,10 +88,9 @@ new Vue({
 
         await Promise.all(lessonsToUpdate);
 
-        // **THE CHANGE**: Instead of redirecting, we show the confirmation message.
-        // 1. Clear the cart from storage
+
         localStorage.removeItem("studyzone-cart");
-        // 2. Set the flag to display the thank you message
+
         this.orderPlaced = true;
       } catch (error) {
         this.error = `Error: ${error.message}`;
